@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Win32;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Win32;
+using System;
 
 namespace Isaiah
 {
@@ -23,42 +11,50 @@ namespace Isaiah
 
     public partial class MainWindow : Window
     {
-        const string keyName = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
+        const string PersonalizationKey = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
         public MainWindow()
         {
             InitializeComponent();
+            if((int)Registry.GetValue(PersonalizationKey, "EnableTransparency", 0) == 1)
+            {
+                TransparentEffect.IsChecked = true;
+            }
         }
 
-        private void SetAppLightMode(int mode)
+        private void SetPersonalizationKey(string key, int value, RegistryValueKind kind)
         {
-            // Mode 0 is Dark
-            // Mode 1 is Light
-            Registry.SetValue(keyName, "AppsUseLightTheme", mode, RegistryValueKind.DWord);
+            Registry.SetValue(PersonalizationKey, key, value, kind);
         }
-
-        private void SetSystemLightMode(int mode)
-        {
-            Registry.SetValue(keyName, "SystemUsesLightTheme", mode, RegistryValueKind.DWord);
-        }
+      
 
         private void SystemLightModeButton_Click(object sender, RoutedEventArgs e)
         {
-            SetSystemLightMode(1);
+            SetPersonalizationKey("SystemUsesLightTheme", 1, RegistryValueKind.DWord);
         }
 
         private void SystemDarkModeButton_Click(object sender, RoutedEventArgs e)
         {
-            SetSystemLightMode(0);
+            SetPersonalizationKey("SystemUsesLightTheme", 0, RegistryValueKind.DWord);
         }
 
         private void AppsLightModeButton_Click(object sender, RoutedEventArgs e)
         {
-            SetAppLightMode(1);
+            SetPersonalizationKey("AppsUseLightTheme", 1, RegistryValueKind.DWord);
         }
 
         private void AppsDarkModeButton_Click(object sender, RoutedEventArgs e)
         {
-            SetAppLightMode(0);
+            SetPersonalizationKey("AppsUseLightTheme", 0, RegistryValueKind.DWord);
+        }
+
+        private void TransparentEffect_Checked(object sender, RoutedEventArgs e)
+        {
+            SetPersonalizationKey("EnableTransparency", 1, RegistryValueKind.DWord);
+        }
+
+        private void TransparentEffect_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SetPersonalizationKey("EnableTransparency", 0, RegistryValueKind.DWord);
         }
     }
 }

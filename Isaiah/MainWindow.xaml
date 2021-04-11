@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Isaiah"
         mc:Ignorable="d"
-        Title="Isaiah - Windows Personalization" Height="450" Width="800" ResizeMode="NoResize">
+        Title="Isaiah - Windows Personalization" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -31,6 +31,8 @@
                 <Button x:Name="AppsLightModeButton" Grid.Column="0" Content="Light Mode" Margin="10,0" Click="AppsLightModeButton_Click"/>
                 <Button x:Name="AppsDarkModeButton" Grid.Column="1" Content="Dark Mode" Margin="10,0" Height="20" VerticalAlignment="Top" Click="AppsDarkModeButton_Click" />
             </Grid>
+            <CheckBox x:Name="TransparentEffect" Content="Transparency Effects" Margin="15,10" FontSize="16" FontFamily="Roboto" Checked="TransparentEffect_Checked" Unchecked="TransparentEffect_Unchecked" />
+
         </StackPanel>
     </Grid>
 </Window>
